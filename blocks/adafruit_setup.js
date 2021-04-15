@@ -67,17 +67,23 @@ window.Blockly.Python['__{{NAMESPACE}}_adafruit_setup'] = function(block) {
     const key = block.getFieldValue('KEY');
     const feed = block.getFieldValue('FEED');
 
-    // Import MicroPython MQTT implementation
-    window.Blockly.Python.definitions_['import_m5mqtt'] = 'from m5mqtt import M5mqtt';
+    // Import MicroPython MQTT client
+    window.Blockly.Python.definitions_['tactilenews_adafruit_setup_import'] = 'from m5mqtt import M5mqtt';
 
     // We store user and feed as properties of the MQTT client, so that
     // users only have to provide them once during setup and we can easily
     // reference them when publishing a message or subscribing to a feed.
+    let code = '';
+    code += `m5mqtt = M5mqtt('m5-stack-user', 'io.adafruit.com', 1883, '${user}', '${key}', 300)\n`;
+    code += `m5mqtt._tactilenews_user = '${user}'\n`;
+    code += `m5mqtt._tactilenews_feed = '${feed}'\n`;
 
-    return (
-        `m5mqtt = M5mqtt('m5-stack-user', 'io.adafruit.com', 1883, '${user}', '${key}', 300)\n` +
-        `m5mqtt._tactilenews_user = '${user}'\n` +
-        `m5mqtt._tactilenews_feed = '${feed}'\n` +
-        `m5mqtt.start()\n`
-    );
+    // Register subscription handler if present
+    if(window._tactilenews_adafruit_subscribe_handler) {
+        code += `m5mqtt.subscribe('${user}/feeds/${feed}', _tactilenews_adafruit_handler)\n`;
+    }
+
+    code += `m5mqtt.start()\n`;
+
+    return code;
 };

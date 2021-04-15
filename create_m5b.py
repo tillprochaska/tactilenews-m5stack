@@ -9,6 +9,8 @@ BLOCKS_DIR = pathlib.Path(__file__).parent / 'blocks'
 BLOCKS = [
   'adafruit_setup',
   'adafruit_publish',
+  'adafruit_subscribe',
+  'adafruit_topic_data',
 ]
 
 m5b_file = {
