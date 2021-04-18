@@ -11,6 +11,8 @@ BLOCKS = [
   'adafruit_publish',
   'adafruit_subscribe',
   'adafruit_topic_data',
+  'ifttt_setup',
+  'ifttt_publish',
 ]
 
 m5b_file = {
