@@ -32,6 +32,8 @@ window.Blockly.Python['__{{NAMESPACE}}_adafruit_publish'] = function(block) {
     const message = Blockly.Python.valueToCode(block, 'MESSAGE', Blockly.Python.ORDER_NONE);
 
     // Import MicroPython MQTT implementation
+    // Note: The MQTT client implementation does only support ASCII
+    // characters, sending other characters may fail or cause side effects.
     window.Blockly.Python.definitions_['import_m5mqtt'] = 'from m5mqtt import M5mqtt';
 
     // Adafruit topics follow the pattern 'USER/feeds/FEED'.
